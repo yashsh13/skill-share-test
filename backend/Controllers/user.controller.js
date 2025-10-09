@@ -35,11 +35,14 @@ export async  function loginController(req,res){
         }
         const accessToken = await generatedAccessToken(user._id)
         const refreshToken = await generatedRefreshToken(user._id)
+        // persist refresh token
+        await UserModel.findByIdAndUpdate(user._id, { refresh_token: refreshToken });
 
+        const isProd = process.env.NODE_ENV === 'production'
         const cookiesOption = {
-            httpOnly : true ,
-            secure :true,
-            samesite : "None"
+            httpOnly: true,
+            secure: isProd, // secure only in production (https)
+            sameSite: isProd ? 'None' : 'Lax'
         }
 
         res.cookie('accessToken',accessToken,cookiesOption)
@@ -67,10 +70,11 @@ export async  function loginController(req,res){
 export async function logoutController(req,res){
         try {
             const userid = req.userId
+            const isProd = process.env.NODE_ENV === 'production'
             const cookiesOption = {
-                httpOnly : true ,
-                secure :true,
-                samesite : "None"
+                httpOnly: true,
+                secure: isProd,
+                sameSite: isProd ? 'None' : 'Lax'
             }
             res.clearCookie("accessToken",cookiesOption);
             res.clearCookie("refreshToken",cookiesOption);
@@ -168,6 +172,62 @@ export async function getProfileController(req,res){
         })
     } catch (error) {
         console.error("Get Profile failed :", error);
+        return res.status(500).json({
+            message : "Internal Server Error",
+            error : true ,
+            success : false 
+        }) 
+    }
+}
+
+export async function isLoginController (req,res){
+    try {
+        // If auth middleware passed, userId exists and token is valid
+        const userid = req.userId;
+        if (!userid) {
+            return res.status(401).json({
+                message: "User not logged in",
+                error: true,
+                success: false
+            })
+        }
+        return res.status(200).json({
+            message: "User is logged in",
+            error: false,
+            success: true
+        })
+    } catch (error) {
+        console.error("Is Login check failed :", error);
+        return res.status(500).json({
+            message : "Internal Server Error",
+            error : true ,
+            success : false 
+        }) 
+    }
+}
+
+export async function fetchMyCoinController(req,res){
+    try {
+        const userid = req.userId ;
+
+        const user = await UserModel.findById(userid).select("coins");
+
+        if(!user){
+            return res.status(404).json({
+                message : "User not found",
+                error : true ,
+                success : false 
+            })
+        }
+
+        return res.status(200).json({
+            message : "Coins fetched successfully" ,
+            error : false ,
+            success : true ,
+            coins : user.coins
+        })
+    } catch (error) {
+        console.error("Fetch My Coin failed :", error);
         return res.status(500).json({
             message : "Internal Server Error",
             error : true ,
