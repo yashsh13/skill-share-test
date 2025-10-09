@@ -7,11 +7,13 @@ import HomePage from "../pages/HomePage.jsx";
 import NotificationsPage from "../pages/Notification.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import FeatureInProcess from "../pages/Maintanence.jsx";
+import RoomPage from "../pages/RoomPage.jsx";
 
 const router = createBrowserRouter([   
     {
         path : "/",
         element : <App />,
+        // errorElement: <Maintenance />,
         children : [
             {
                 index: true,
@@ -44,6 +46,10 @@ const router = createBrowserRouter([
             {
                 path : "update-profile",
                 element : <FeatureInProcess/>
+            },
+            {
+                path : "join-room",
+                element : <RoomPage/>
             }
         ]
     }

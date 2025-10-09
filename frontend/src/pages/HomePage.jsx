@@ -84,7 +84,7 @@ function Header({ isLoggedIn, onLogout ,myCoin}) {
             <div className="flex items-center space-x-3">
               <button className="hidden md:flex items-center justify-center w-12 h-12 md:w-auto md:px-6 md:py-3 bg-white border-2 border-violet-200 rounded-full hover:border-violet-400 hover:scale-105 transition-all shadow-lg hover:shadow-xl group">
                 <MessageCircle className="w-5 h-5 text-violet-600 group-hover:scale-110 transition-transform" />
-                <span className="hidden md:block ml-2 font-semibold text-gray-700">Room</span>
+                <a href="/join-room"><span className="hidden md:block ml-2 font-semibold text-gray-700">Room</span></a>
               </button>
 
               <button className="flex items-center justify-center w-12 h-12 md:w-auto md:px-6 md:py-3 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full hover:scale-105 transition-all shadow-lg hover:shadow-xl group border-2 border-white">
@@ -286,9 +286,23 @@ export default function HomePage() {
     setFloatingElements(elements);
   }, []);
 
-  const handleConnect = () => {
-    if (prompt.trim()) {
-      // Trigger connection with current prompt
+  const handleConnect = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3001/api/user/submit-prompt",
+        { prompt },
+        { withCredentials: true }
+      );
+  
+      if (data?.success) {
+        // Redirect to the generated room
+        window.location.href = `https://meet.jit.si/${data?.roomId}`;
+      } else {
+        alert(data?.message || "Failed to connect. Please try again.");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Please login to connect");
     }
   };
 

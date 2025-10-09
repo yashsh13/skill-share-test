@@ -335,6 +335,7 @@ export async function submitPromptController(req,res){
             message : "Prompt submitted successfully" ,
             error : false ,
             success : true ,
+            roomId: roomid,
             data : save_notification
         })
     } catch (error) {
