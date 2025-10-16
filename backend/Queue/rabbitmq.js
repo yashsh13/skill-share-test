@@ -5,7 +5,7 @@ let connection;
 export async function getConnection() {
   if (connection) return connection;
 
-  const RABBIT_URL = process.env.RABBITMQ_URL || "amqp://localhost";
+  const RABBIT_URL = process.env.RABBITMQ_URL ;
   connection = await amqp.connect(RABBIT_URL);
   console.log("✅ Connected to RabbitMQ");
   return connection;
