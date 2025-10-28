@@ -7,6 +7,7 @@ import morgan from "morgan"
 import helmet from "helmet"
 import connectDB from "./Configs/connectDB.js";
 import UserRouter from "./Routes/user.route.js";
+import WrapperRouter from "./Routes/wrapper.route.js";
 
 const app = express();
 app.use(cors({
@@ -22,6 +23,7 @@ app.use(helmet({
 
 // Routes
 app.use("/api/user", UserRouter);
+app.use("/api", WrapperRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Hello from the backend!" });

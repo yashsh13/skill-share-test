@@ -8,6 +8,7 @@ import NotificationsPage from "../pages/Notification.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import FeatureInProcess from "../pages/Maintanence.jsx";
 import RoomPage from "../pages/RoomPage.jsx";
+import ChatPage from "../pages/ChatPage.jsx";
 
 const router = createBrowserRouter([   
     {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
             {
                 path : "join-room",
                 element : <RoomPage/>
+            },
+            {
+                path : "chat",
+                element : <ChatPage/>
             }
         ]
     }

@@ -291,7 +291,7 @@ export async function updateProfileController(req,res){
 export async function fetchNotications(req,res){
     try {
         const userid = req.userId ;
-        const user_notifications = await UserModel.findById(userid).populate("notifications");
+        const user_notifications = await UserModel.findById(userid).populate({ path: "notifications", options: { sort: { "createdAt": -1 } } });
         return res.status(200).json({
             message : "Notifications fetched successfully" ,
             error : false ,
