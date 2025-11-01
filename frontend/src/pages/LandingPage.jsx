@@ -137,7 +137,7 @@ export default function LandingPage() {
               Skills
             </span>
             <br />
-            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 text-5xl animate-pulse drop-shadow-lg">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 text-5xl animate-pulse drop-shadow-lg p-2">
             Meet Amazing Friends
             </span>
           </h1>
@@ -154,7 +154,7 @@ export default function LandingPage() {
 
           {/* Playful CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-            <button onClick={navigateToRegister} className="group relative px-12 py-6 bg-gradient-to-r from-blue-500 via-violet-500 to-purple-500 text-white rounded-full font-bold text-xl shadow-2xl shadow-violet-400/50 hover:shadow-violet-500/70 hover:scale-110 transition-all duration-300 overflow-hidden">
+            <button onClick={navigateToRegister} className="group relative px-12 py-6 bg-gradient-to-r from-blue-500 via-violet-500 to-purple-500 text-white rounded-full font-bold text-xl shadow-2xl shadow-violet-400/50 hover:shadow-violet-500/70 hover:scale-110 transition-all duration-300 overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-violet-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10 flex items-center space-x-3">
                 <Sparkles className="w-6 h-6 animate-spin" style={{ animationDuration: '3s' }} />
@@ -163,7 +163,7 @@ export default function LandingPage() {
               </span>
             </button>
             
-            <button onClick={navigateToLogin} className="group px-12 py-6 bg-white text-violet-600 rounded-full font-bold text-xl shadow-2xl shadow-blue-300/50 hover:shadow-blue-400/70 hover:scale-110 transition-all duration-300 border-4 border-violet-200 hover:border-violet-300">
+            <button onClick={navigateToLogin} className="group px-12 py-6 bg-white text-violet-600 rounded-full font-bold text-xl shadow-2xl shadow-blue-300/50 hover:shadow-blue-400/70 hover:scale-110 transition-all duration-300 border-4 border-violet-200 hover:border-violet-300 cursor-pointer">
               <span className="flex items-center space-x-2">
                 <Heart className="w-6 h-6 group-hover:fill-pink-400 group-hover:text-pink-400 transition-colors" />
                 <span> Already Registered </span>
@@ -177,7 +177,7 @@ export default function LandingPage() {
               { number: 'Meet Strangers', label: 'share skills', icon: <Smile className="w-10 h-10" />, gradient: 'from-yellow-400 to-orange-400' },
               { number: 'Get Coins', label: 'win coupons', icon: <Globe2 className="w-10 h-10" />, gradient: 'from-blue-400 to-cyan-400' },
               { number: 'Use Skills', label: 'spread happiness', icon: <Heart className="w-10 h-10" />, gradient: 'from-pink-400 to-rose-400' },
-              { number: 'Connect', label: 'with amzing peoples', icon: <Sparkles className="w-10 h-10" />, gradient: 'from-violet-400 to-purple-400' }
+              { number: 'Connect', label: 'with amazing peoples', icon: <Sparkles className="w-10 h-10" />, gradient: 'from-violet-400 to-purple-400' }
             ].map((stat, index) => (
               <div
                 key={index}
@@ -207,15 +207,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Cute Scroll Indicator */}
-        <div className="absolute bottom-10 animate-bounce">
-          <div className="flex flex-col items-center space-y-2">
-            <div className="w-8 h-12 border-4 border-violet-300 rounded-full flex justify-center pt-2">
-              <div className="w-2 h-4 bg-gradient-to-b from-violet-500 to-pink-500 rounded-full animate-pulse" />
-            </div>
-            <span className="text-sm text-gray-500 font-medium">Scroll to explore</span>
-          </div>
-        </div>
       </div>
 
       {/* Cheerful Bottom Waves */}
