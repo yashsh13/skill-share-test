@@ -1,12 +1,13 @@
 import {Router} from "express";
 import auth from "../Middlewares/auth.js";
-import { registerController , loginController , updateProfileController ,fetchNotications , submitPromptController, logoutController, getProfileController, isLoginController, fetchMyCoinController } from "../Controllers/user.controller.js";
+import { registerController , loginController , updateProfileController ,fetchNotications , submitPromptController, logoutController, getProfileController, isLoginController, fetchMyCoinController, isLoggedIn } from "../Controllers/user.controller.js";
 import { wrap } from "../Controllers/wrapper.controller.js";
 
 const UserRouter = Router();
 
 UserRouter.post("/register", registerController);
 UserRouter.post("/login", loginController);
+UserRouter.get("/isloggedin",isLoggedIn)
 UserRouter.post("/logout", auth , logoutController);
 UserRouter.post("/me", auth, isLoginController);
 UserRouter.post("/mycoins", auth, fetchMyCoinController);
