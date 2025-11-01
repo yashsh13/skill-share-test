@@ -1,4 +1,5 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import App from "../App";
 import LandingPage from "../pages/LandingPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
@@ -9,6 +10,34 @@ import ProfilePage from "../pages/ProfilePage.jsx";
 import FeatureInProcess from "../pages/Maintanence.jsx";
 import RoomPage from "../pages/RoomPage.jsx";
 import ChatPage from "../pages/ChatPage.jsx";
+import axios from "axios";
+
+function ProtectedRoute({ children }) {
+  const [checked, setChecked] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const verify = async () => {
+      try {
+        const res = await axios.get("http://localhost:3001/api/user/isloggedin", {
+          withCredentials: true,
+        });
+        if (res.data.loggedIn){
+            setLoggedIn(true);
+        }
+      } catch {
+        setLoggedIn(false);
+      } finally {
+        setChecked(true);
+      }
+    };
+    verify();
+  }, []);
+
+  if (!checked) return null; 
+
+  return loggedIn ? children : <Navigate to="/login" replace />;
+}
 
 const router = createBrowserRouter([   
     {
@@ -34,27 +63,45 @@ const router = createBrowserRouter([
             },
             {
                 path : "home",
-                element : <HomePage/>
+                element : (
+                    <ProtectedRoute>
+                        <HomePage/>
+                    </ProtectedRoute>)
             },
             {
                 path : "notifications",
-                element : <NotificationsPage/>
+                element : (
+                    <ProtectedRoute>
+                        <NotificationsPage/>
+                    </ProtectedRoute>)
             },
             {
                 path : "profile",
-                element : <ProfilePage/>
+                element : (
+                    <ProtectedRoute>
+                        <ProfilePage/>
+                    </ProtectedRoute>)
             },
             {
                 path : "update-profile",
-                element : <FeatureInProcess/>
+                element : (
+                    <ProtectedRoute>
+                        <FeatureInProcess/>
+                    </ProtectedRoute>)
             },
             {
                 path : "join-room",
-                element : <RoomPage/>
+                element : (
+                    <ProtectedRoute>
+                        <RoomPage/>
+                    </ProtectedRoute>)
             },
             {
                 path : "chat",
-                element : <ChatPage/>
+                element : (
+                    <ProtectedRoute>
+                        <ChatPage/>
+                    </ProtectedRoute>)
             }
         ]
     }

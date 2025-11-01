@@ -35,8 +35,6 @@ export async  function loginController(req,res){
         }
         const accessToken = await generatedAccessToken(user._id)
         const refreshToken = await generatedRefreshToken(user._id)
-        // persist refresh token
-        await UserModel.findByIdAndUpdate(user._id, { refresh_token: refreshToken });
 
         const isProd = process.env.NODE_ENV === 'production'
         const cookiesOption = {
@@ -81,7 +79,7 @@ export async function logoutController(req,res){
             const removeRefreshToken = await UserModel.findByIdAndUpdate(userid,{
                 refresh_token : ""
             })
-    
+            
             res.json({
                 message : "Successfully Loggedout",
                 error : false ,
@@ -346,6 +344,30 @@ export async function submitPromptController(req,res){
             success : false 
         })
     }
+}
+
+export async function isLoggedIn(req,res){
+
+    try{
+
+        const accessToken = req.cookies.accessToken;
+        const refreshToken = req.cookies.refreshToken;
+
+        if (!accessToken || !refreshToken) {
+            return res.status(401).json({ loggedIn: false });
+        }
+
+        return res.json({ loggedIn: true });
+    }
+    catch (error) {
+        console.error("Login Check failed :", error);
+        return res.status(500).json({
+            message : "Internal Server Error",
+            error : true ,
+            success : false 
+        }) 
+    }
+
 }
 
 // export async function transactionController(req,res){
